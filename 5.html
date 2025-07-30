@@ -154,23 +154,21 @@
         font-weight: bold;
         font-size: 1.2em;
     }
-    /* ★問題文と解答カードをグループ化 */
     .question-group {
         background-color: var(--card-bg-color);
         padding: 20px;
         border-radius: 12px;
         box-shadow: 0 4px 8px var(--shadow-color);
-        margin-bottom: 20px;
     }
     .question-prompt {
         font-size: 1.1em;
+        margin-top: 0;
         margin-bottom: 15px;
     }
-    /* ★解答カード用のスタイル */
     .answer-card {
         min-height: 60px;
         width: 200px;
-        margin: 0 auto; /* 中央揃え */
+        margin: 0 auto; 
     }
     .answer-card .card-face {
         padding: 10px;
@@ -181,7 +179,20 @@
          font-weight: bold;
     }
     .answer-card .card-front::after {
-        content: none; /* 「クリックして〜」を非表示 */
+        content: none;
+    }
+    .vocab-grid-container {
+        display: grid;
+        gap: 20px;
+        grid-template-columns: 1fr;
+    }
+    @media (min-width: 768px) {
+        .vocab-grid-container {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    .subsection-wrap {
+        margin-bottom: 30px;
     }
 
 </style>
@@ -252,9 +263,9 @@
 
 <h2>本文 (Reading Passage)</h2>
 
-<section id="section1">
+<section class="flippable-section">
     <h3>Section 1</h3>
-    <button class="flip-all-btn" onclick="flipAllInSection(this)">このセクションを全てめくる / 戻す</button>
+    <button class="flip-all-btn" onclick="flipAll(this)">このセクションを全てめくる / 戻す</button>
     <div class="container">
         <div id="card-1" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">In 1999, a man in the U.S. state of Wisconsin called Jay Shafer</p></div><div class="card-face card-back"><p class="japanese-text">1999年、アメリカのウィスコンシン州に住むジェイ・シェイファーという名の男性が</p></div></div></div>
         <div id="card-2" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">built a tiny house on wheels for himself.</p></div><div class="card-face card-back"><p class="japanese-text">自分のために車輪付きの小さな家を建てました。</p></div></div></div>
@@ -273,9 +284,9 @@
     </div>
 </section>
 
-<section id="section2">
+<section class="flippable-section">
     <h3>Section 2</h3>
-    <button class="flip-all-btn" onclick="flipAllInSection(this)">このセクションを全てめくる / 戻す</button>
+    <button class="flip-all-btn" onclick="flipAll(this)">このセクションを全てめくる / 戻す</button>
     <div class="container">
         <div id="card-15" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">For Japanese people, who are accustomed to relatively small living spaces,</p></div><div class="card-face card-back"><p class="japanese-text">比較的小さな居住空間に慣れている日本人にとって、</p></div></div></div>
         <div id="card-16" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">it might come as a shock to discover that in 2021,</p></div><div class="card-face card-back"><p class="japanese-text">2021年に発見することは衝撃かもしれません、</p></div></div></div>
@@ -287,9 +298,9 @@
     </div>
 </section>
 
-<section id="section3">
+<section class="flippable-section">
     <h3>Section 3</h3>
-    <button class="flip-all-btn" onclick="flipAllInSection(this)">このセクションを全てめくる / 戻す</button>
+    <button class="flip-all-btn" onclick="flipAll(this)">このセクションを全てめくる / 戻す</button>
     <div class="container">
         <div id="card-22" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">But for me at least, living in a tiny house is not an optimal solution.</p></div><div class="card-face card-back"><p class="japanese-text">しかし、少なくとも私にとっては、小さな家に住むことは最適な解決策ではありません。</p></div></div></div>
         <div id="card-23" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">In opting to downscale my living accommodations so drastically,</p></div><div class="card-face card-back"><p class="japanese-text">住居をこれほどまでに抜本的に縮小することを選ぶ上で、</p></div></div></div>
@@ -305,9 +316,9 @@
     </div>
 </section>
 
-<section id="section4">
+<section class="flippable-section">
     <h3>Section 4</h3>
-    <button class="flip-all-btn" onclick="flipAllInSection(this)">このセクションを全てめくる / 戻す</button>
+    <button class="flip-all-btn" onclick="flipAll(this)">このセクションを全てめくる / 戻す</button>
     <div class="container">
         <div id="card-33" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">Like Jay Shafer's original small home, some tiny houses are built on wheels,</p></div><div class="card-face card-back"><p class="japanese-text">ジェイ・シェイファーの最初の小さな家のように、いくつかのタイニーハウスは車輪の上に建てられています、</p></div></div></div>
         <div id="card-34" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">which means they can be considered as mobile homes</p></div><div class="card-face card-back"><p class="japanese-text">これは、それらが移動式住居と見なされることを意味し、</p></div></div></div>
@@ -323,9 +334,9 @@
     </div>
 </section>
 
-<section id="section5">
+<section class="flippable-section">
     <h3>Section 5</h3>
-    <button class="flip-all-btn" onclick="flipAllInSection(this)">このセクションを全てめくる / 戻す</button>
+    <button class="flip-all-btn" onclick="flipAll(this)">このセクションを全てめくる / 戻す</button>
     <div class="container">
         <div id="card-44" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">Nevertheless, people are continuing to come up with creative ways</p></div><div class="card-face card-back"><p class="japanese-text">それにもかかわらず、人々は創造的な方法を考え出し続けています</p></div></div></div>
         <div id="card-45" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">to get around such problems.</p></div><div class="card-face card-back"><p class="japanese-text">そのような問題を回避するための。</p></div></div></div>
@@ -336,94 +347,82 @@
     </div>
 </section>
 
-<h2 id="vocab-heading">重要単語 📝</h2>
-<div class="container">
-    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">promote</p></div><div class="card-face card-back"><p class="japanese-text">～を促進する、推進する</p></div></div></div>
-    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">minimalist</p></div><div class="card-face card-back"><p class="japanese-text">最小限主義者（の）</p></div></div></div>
-    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">attuned to</p></div><div class="card-face card-back"><p class="japanese-text">～に同調して、～に合わせて</p></div></div></div>
-    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">possession</p></div><div class="card-face card-back"><p class="japanese-text">所有物</p></div></div></div>
-    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">put into practice</p></div><div class="card-face card-back"><p class="japanese-text">～を実行する</p></div></div></div>
-    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">accustomed to</p></div><div class="card-face card-back"><p class="japanese-text">～に慣れている</p></div></div></div>
-    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">come as a shock</p></div><div class="card-face card-back"><p class="japanese-text">衝撃を与える</p></div></div></div>
-    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">advocate</p></div><div class="card-face card-back"><p class="japanese-text">～を主張する、提唱する</p></div></div></div>
-    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">subsequently</p></div><div class="card-face card-back"><p class="japanese-text">その後</p></div></div></div>
-    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">optimal</p></div><div class="card-face card-back"><p class="japanese-text">最適な</p></div></div></div>
-    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">downscale</p></div><div class="card-face card-back"><p class="japanese-text">～を縮小する</p></div></div></div>
-    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">drastically</p></div><div class="card-face card-back"><p class="japanese-text">抜本的に、徹底的に</p></div></div></div>
-    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">confined</p></div><div class="card-face card-back"><p class="japanese-text">限られた、狭い</p></div></div></div>
-    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">sacrifice</p></div><div class="card-face card-back"><p class="japanese-text">～を犠牲にする</p></div></div></div>
-    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">empty-nester</p></div><div class="card-face card-back"><p class="japanese-text">子供が自立して巣立った親</p></div></div></div>
-    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">conventional</p></div><div class="card-face card-back"><p class="japanese-text">従来の</p></div></div></div>
-    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">obstacle</p></div><div class="card-face card-back"><p class="japanese-text">障害（物）</p></div></div></div>
-    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">zoning laws</p></div><div class="card-face card-back"><p class="japanese-text">地域指定法、都市計画法</p></div></div></div>
-    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">comply with</p></div><div class="card-face card-back"><p class="japanese-text">～に従う、～を遵守する</p></div></div></div>
-    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">regulation</p></div><div class="card-face card-back"><p class="japanese-text">規制、規則</p></div></div></div>
-    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">get around</p></div><div class="card-face card-back"><p class="japanese-text">～をうまく回避する</p></div></div></div>
-    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">fulfilling</p></div><div class="card-face card-back"><p class="japanese-text">充実した、やりがいのある</p></div></div></div>
-</div>
+<section class="flippable-section">
+    <h2 id="vocab-heading">重要単語 📝</h2>
+    <button class="flip-all-btn" onclick="flipAll(this)">全てめくる / 戻す</button>
+    <div class="container">
+        <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">promote</p></div><div class="card-face card-back"><p class="japanese-text">～を促進する、推進する</p></div></div></div>
+        <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">minimalist</p></div><div class="card-face card-back"><p class="japanese-text">最小限主義者（の）</p></div></div></div>
+        <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">attuned to</p></div><div class="card-face card-back"><p class="japanese-text">～に同調して、～に合わせて</p></div></div></div>
+        <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">possession</p></div><div class="card-face card-back"><p class="japanese-text">所有物</p></div></div></div>
+        <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">put into practice</p></div><div class="card-face card-back"><p class="japanese-text">～を実行する</p></div></div></div>
+        <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">accustomed to</p></div><div class="card-face card-back"><p class="japanese-text">～に慣れている</p></div></div></div>
+        <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">come as a shock</p></div><div class="card-face card-back"><p class="japanese-text">衝撃を与える</p></div></div></div>
+        <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">advocate</p></div><div class="card-face card-back"><p class="japanese-text">～を主張する、提唱する</p></div></div></div>
+        <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">subsequently</p></div><div class="card-face card-back"><p class="japanese-text">その後</p></div></div></div>
+        <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">optimal</p></div><div class="card-face card-back"><p class="japanese-text">最適な</p></div></div></div>
+        <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">downscale</p></div><div class="card-face card-back"><p class="japanese-text">～を縮小する</p></div></div></div>
+        <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">drastically</p></div><div class="card-face card-back"><p class="japanese-text">抜本的に、徹底的に</p></div></div></div>
+        <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">confined</p></div><div class="card-face card-back"><p class="japanese-text">限られた、狭い</p></div></div></div>
+        <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">sacrifice</p></div><div class="card-face card-back"><p class="japanese-text">～を犠牲にする</p></div></div></div>
+        <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">empty-nester</p></div><div class="card-face card-back"><p class="japanese-text">子供が自立して巣立った親</p></div></div></div>
+        <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">conventional</p></div><div class="card-face card-back"><p class="japanese-text">従来の</p></div></div></div>
+        <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">obstacle</p></div><div class="card-face card-back"><p class="japanese-text">障害（物）</p></div></div></div>
+        <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">zoning laws</p></div><div class="card-face card-back"><p class="japanese-text">地域指定法、都市計画法</p></div></div></div>
+        <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">comply with</p></div><div class="card-face card-back"><p class="japanese-text">～に従う、～を遵守する</p></div></div></div>
+        <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">regulation</p></div><div class="card-face card-back"><p class="japanese-text">規制、規則</p></div></div></div>
+        <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">get around</p></div><div class="card-face card-back"><p class="japanese-text">～をうまく回避する</p></div></div></div>
+        <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">fulfilling</p></div><div class="card-face card-back"><p class="japanese-text">充実した、やりがいのある</p></div></div></div>
+    </div>
+</section>
 
 <h2 id="wrapup-heading">Wrap Up 📋</h2>
 
-<h3>Build Your Vocabulary</h3>
-<div class="question-group">
-    <p class="question-prompt">1. (line 6) to help something to develop</p>
-    <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>答えを見る</p></div><div class="card-face card-back"><p class="correct-answer">Promote</p></div></div></div>
-</div>
-<div class="question-group">
-    <p class="question-prompt">2. (line 11) something that belongs to you</p>
-    <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>答えを見る</p></div><div class="card-face card-back"><p class="correct-answer">Possession</p></div></div></div>
-</div>
-<div class="question-group">
-    <p class="question-prompt">3. (line 13) familiar with something</p>
-    <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>答えを見る</p></div><div class="card-face card-back"><p class="correct-answer">Accustomed</p></div></div></div>
-</div>
-<div class="question-group">
-    <p class="question-prompt">4. (line 17) to publicly support</p>
-    <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>答えを見る</p></div><div class="card-face card-back"><p class="correct-answer">Advocate</p></div></div></div>
-</div>
-<div class="question-group">
-    <p class="question-prompt">5. (line 22) most favorable or desirable</p>
-    <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>答えを見る</p></div><div class="card-face card-back"><p class="correct-answer">Optimal</p></div></div></div>
-</div>
-<div class="question-group">
-    <p class="question-prompt">6. (line 24) small or limited</p>
-    <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>答えを見る</p></div><div class="card-face card-back"><p class="correct-answer">Confined</p></div></div></div>
-</div>
-<div class="question-group">
-    <p class="question-prompt">7. (line 41) to act as requested</p>
-    <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>答えを見る</p></div><div class="card-face card-back"><p class="correct-answer">Comply</p></div></div></div>
-</div>
-<div class="question-group">
-    <p class="question-prompt">8. (line 48) satisfying or rewarding</p>
-    <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>答えを見る</p></div><div class="card-face card-back"><p class="correct-answer">Fulfilling</p></div></div></div>
+<div class="subsection-wrap flippable-section">
+    <h3 style="position: static; box-shadow: none; border-left: none; padding-left: 0;">Build Your Vocabulary</h3>
+    <button class="flip-all-btn" onclick="flipAll(this)">全てめくる / 戻す</button>
+    <div class="vocab-grid-container">
+        <div class="question-group"><p class="question-prompt">1. (line 6) to help something to develop</p><div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>答え</p></div><div class="card-face card-back"><p class="correct-answer">Promote</p></div></div></div></div>
+        <div class="question-group"><p class="question-prompt">2. (line 11) something that belongs to you</p><div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>答え</p></div><div class="card-face card-back"><p class="correct-answer">Possession</p></div></div></div></div>
+        <div class="question-group"><p class="question-prompt">3. (line 13) familiar with something</p><div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>答え</p></div><div class="card-face card-back"><p class="correct-answer">Accustomed</p></div></div></div></div>
+        <div class="question-group"><p class="question-prompt">4. (line 17) to publicly support</p><div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>答え</p></div><div class="card-face card-back"><p class="correct-answer">Advocate</p></div></div></div></div>
+        <div class="question-group"><p class="question-prompt">5. (line 22) most favorable or desirable</p><div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>答え</p></div><div class="card-face card-back"><p class="correct-answer">Optimal</p></div></div></div></div>
+        <div class="question-group"><p class="question-prompt">6. (line 24) small or limited</p><div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>答え</p></div><div class="card-face card-back"><p class="correct-answer">Confined</p></div></div></div></div>
+        <div class="question-group"><p class="question-prompt">7. (line 41) to act as requested</p><div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>答え</p></div><div class="card-face card-back"><p class="correct-answer">Comply</p></div></div></div></div>
+        <div class="question-group"><p class="question-prompt">8. (line 48) satisfying or rewarding</p><div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>答え</p></div><div class="card-face card-back"><p class="correct-answer">Fulfilling</p></div></div></div></div>
+    </div>
 </div>
 
-<h3>Summary & Dictation</h3>
-<div class="question-group">
-    <p class="question-prompt">As the popularity of the [1] ______ approach to life shows, more people are thinking about living with fewer [2] ______. Living in a small house allows people to put the [3] ______ of simpler living into practice. But living in a tiny house means [4] ______ to a confined living space. Furniture must be multi-functional, possessions must be reduced to the [5] ______, and privacy must be [6] ______. Many retirees have [7] ______ this style of living, but younger couples may find limited space is a problem when bringing up children. Some tiny houses are built on wheels, which means they can be moved from place to place. However, for people who want to [8] ______ in one place, there are [9] ______. A tiny home may cost less to build than a conventional home, but the land on which it stands must also be purchased and there can be difficulties with construction [10] ______.</p>
-    
-    <div class="container">
-        <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>1</p></div><div class="card-face card-back"><p class="correct-answer">minimalist</p></div></div></div>
-        <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>2</p></div><div class="card-face card-back"><p class="correct-answer">possessions</p></div></div></div>
-        <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>3</p></div><div class="card-face card-back"><p class="correct-answer">idea</p></div></div></div>
-        <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>4</p></div><div class="card-face card-back"><p class="correct-answer">adapting</p></div></div></div>
-        <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>5</p></div><div class="card-face card-back"><p class="correct-answer">minimum</p></div></div></div>
-        <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>6</p></div><div class="card-face card-back"><p class="correct-answer">sacrificed</p></div></div></div>
-        <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>7</p></div><div class="card-face card-back"><p class="correct-answer">embraced</p></div></div></div>
-        <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>8</p></div><div class="card-face card-back"><p class="correct-answer">settle</p></div></div></div>
-        <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>9</p></div><div class="card-face card-back"><p class="correct-answer">obstacles</p></div></div></div>
-        <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>10</p></div><div class="card-face card-back"><p class="correct-answer">regulations</p></div></div></div>
+<div class="subsection-wrap flippable-section">
+    <h3 style="position: static; box-shadow: none; border-left: none; padding-left: 0;">Summary & Dictation</h3>
+    <button class="flip-all-btn" onclick="flipAll(this)">全てめくる / 戻す</button>
+    <div class="question-group">
+        <p class="question-prompt">As the popularity of the [1] ______ approach to life shows, more people are thinking about living with fewer [2] ______. Living in a small house allows people to put the [3] ______ of simpler living into practice. But living in a tiny house means [4] ______ to a confined living space. Furniture must be multi-functional, possessions must be reduced to the [5] ______, and privacy must be [6] ______. Many retirees have [7] ______ this style of living, but younger couples may find limited space is a problem when bringing up children. Some tiny houses are built on wheels, which means they can be moved from place to place. However, for people who want to [8] ______ in one place, there are [9] ______. A tiny home may cost less to build than a conventional home, but the land on which it stands must also be purchased and there can be difficulties with construction [10] ______.</p>
+        <div class="container">
+            <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>1</p></div><div class="card-face card-back"><p class="correct-answer">minimalist</p></div></div></div>
+            <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>2</p></div><div class="card-face card-back"><p class="correct-answer">possessions</p></div></div></div>
+            <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>3</p></div><div class="card-face card-back"><p class="correct-answer">idea</p></div></div></div>
+            <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>4</p></div><div class="card-face card-back"><p class="correct-answer">adapting</p></div></div></div>
+            <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>5</p></div><div class="card-face card-back"><p class="correct-answer">minimum</p></div></div></div>
+            <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>6</p></div><div class="card-face card-back"><p class="correct-answer">sacrificed</p></div></div></div>
+            <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>7</p></div><div class="card-face card-back"><p class="correct-answer">embraced</p></div></div></div>
+            <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>8</p></div><div class="card-face card-back"><p class="correct-answer">settle</p></div></div></div>
+            <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>9</p></div><div class="card-face card-back"><p class="correct-answer">obstacles</p></div></div></div>
+            <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>10</p></div><div class="card-face card-back"><p class="correct-answer">regulations</p></div></div></div>
+        </div>
     </div>
 </div>
 
 
 <script>
-function flipAllInSection(buttonElement) {
-    const section = buttonElement.closest('section');
-    const cards = section.querySelectorAll('.card');
-    cards.forEach(card => {
-        card.classList.toggle('is-flipped');
-    });
+function flipAll(buttonElement) {
+    const container = buttonElement.closest('.flippable-section');
+    if (container) {
+        const cards = container.querySelectorAll('.card');
+        cards.forEach(card => {
+            card.classList.toggle('is-flipped');
+        });
+    }
 }
 </script>
 
