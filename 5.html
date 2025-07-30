@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>英語テスト対策 | Tiny Houses</title>
+<style>
+    :root {
+        --primary-color: #4a90e2;
+        --secondary-color: #50e3c2;
+        --background-color: #f4f7f6;
+        --card-bg-color: #ffffff;
+        --text-color: #333;
+        --shadow-color: rgba(0, 0, 0, 0.1);
+        --nav-bg-color: #e9eef2;
+    }
+    html {
+        scroll-behavior: smooth;
+    }
+    body {
+        font-family: 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, sans-serif;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        margin: 0;
+        padding: 20px;
+    }
+    h1 {
+        text-align: center;
+        color: var(--primary-color);
+        border-bottom: 2px solid var(--secondary-color);
+        padding-bottom: 10px;
+        margin-bottom: 30px;
+    }
+    h2, h3 {
+        color: var(--primary-color);
+        border-left: 5px solid var(--secondary-color);
+        padding-left: 15px;
+        margin-top: 40px;
+        margin-bottom: 20px;
+    }
+    #vocab-heading, #wrapup-heading, h3 {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background-color: var(--background-color);
+        padding-top: 10px;
+        padding-bottom: 10px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    #full-text-nav {
+        background-color: var(--nav-bg-color);
+        padding: 15px 25px;
+        border-radius: 12px;
+        margin-bottom: 30px;
+        line-height: 2;
+    }
+    #full-text-nav h3 {
+        position: static;
+        border-left: none;
+        padding-left: 0;
+        margin-top: 0;
+        box-shadow: none;
+    }
+    #full-text-nav a {
+        text-decoration: none;
+        color: #337ab7;
+        transition: background-color 0.2s;
+        padding: 2px 4px;
+        border-radius: 4px;
+    }
+    #full-text-nav a:hover {
+        background-color: var(--secondary-color);
+        color: white;
+    }
+    .flip-all-btn {
+        display: block;
+        margin: -10px 0 20px 22px;
+        padding: 8px 15px;
+        border: none;
+        background-color: var(--secondary-color);
+        color: white;
+        font-weight: bold;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .flip-all-btn:hover {
+        background-color: #45c9ab;
+    }
+    .container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 20px;
+        perspective: 1000px;
+    }
+    .card {
+        background-color: transparent;
+        min-height: 180px;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+    }
+    .card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        flex-grow: 1;
+        text-align: center;
+        transition: transform 0.7s;
+        transform-style: preserve-3d;
+        box-shadow: 0 4px 8px var(--shadow-color);
+        border-radius: 12px;
+    }
+    .card.is-flipped .card-inner {
+        transform: rotateY(180deg);
+    }
+    .card-face {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding: 20px;
+        box-sizing: border-box;
+        border-radius: 12px;
+    }
+    .card-front {
+        background-color: var(--card-bg-color);
+    }
+    .card-back {
+        background-color: var(--primary-color);
+        color: white;
+        transform: rotateY(180deg);
+    }
+    .card p {
+        margin: 5px 0;
+        font-size: 1.1em;
+    }
+    .card .english-text {
+        font-weight: bold;
+    }
+    .card-front::after {
+        content: 'クリックして答えを見る 🔄';
+        position: absolute;
+        bottom: 15px;
+        font-size: 0.8em;
+        color: #aaa;
+    }
+    .correct-answer {
+        font-weight: bold;
+        font-size: 1.2em;
+    }
+    /* ★問題文と解答カードをグループ化 */
+    .question-group {
+        background-color: var(--card-bg-color);
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 8px var(--shadow-color);
+        margin-bottom: 20px;
+    }
+    .question-prompt {
+        font-size: 1.1em;
+        margin-bottom: 15px;
+    }
+    /* ★解答カード用のスタイル */
+    .answer-card {
+        min-height: 60px;
+        width: 200px;
+        margin: 0 auto; /* 中央揃え */
+    }
+    .answer-card .card-face {
+        padding: 10px;
+    }
+    .answer-card .card-front p {
+         font-size: 1em;
+         color: var(--primary-color);
+         font-weight: bold;
+    }
+    .answer-card .card-front::after {
+        content: none; /* 「クリックして〜」を非表示 */
+    }
+
+</style>
+</head>
+<body>
+
+<h1>Tiny Houses テスト対策 🏠</h1>
+
+<div id="full-text-nav">
+    <h3>全文ナビゲーション（クリックで該当箇所にジャンプ）</h3>
+    <p>
+        <b>[1]</b>
+        <a href="#card-1">In 1999, a man in the U.S. state of Wisconsin called Jay Shafer</a>
+        <a href="#card-2">built a tiny house on wheels for himself.</a>
+        <a href="#card-3">It had a floor area of just 10 square meters,</a>
+        <a href="#card-4">yet he lived in it for five years.</a>
+        <a href="#card-5">Later, he produced the first plans for tiny houses on wheels</a>
+        <a href="#card-6">and went on to found companies that built them,</a>
+        <a href="#card-7">as well as a society to promote this type of living.</a>
+        <a href="#card-8">This gave birth to the Small House Movement.</a>
+        <a href="#card-9">The timing for such a development was right.</a>
+        <a href="#card-10">As the popularity of the minimalist approach to life shows,</a>
+        <a href="#card-11">more and more people are becoming attuned to the idea</a>
+        <a href="#card-12">of living more simply with fewer possessions.</a>
+        <a href="#card-13">Living in a small house potentially offers a way</a>
+        <a href="#card-14">to put the idea of simpler living into practice.</a>
+        <b>[2]</b>
+        <a href="#card-15">For Japanese people, who are accustomed to relatively small living spaces,</a>
+        <a href="#card-16">it might come as a shock to discover that in 2021,</a>
+        <a href="#card-17">the size of the average American family home was around 230 square meters.</a>
+        <a href="#card-18">The small house movement advocated a return</a>
+        <a href="#card-19">to houses of less than 93 square meters.</a>
+        <a href="#card-20">Subsequently, the idea of the tiny house was developed.</a>
+        <a href="#card-21">— one with a floor area of 37 square meters or less —</a>
+        <b>[3]</b>
+        <a href="#card-22">But for me at least, living in a tiny house is not an optimal solution.</a>
+        <a href="#card-23">In opting to downscale my living accommodations so drastically,</a>
+        <a href="#card-24">the first hurdle I would need to overcome is adapting</a>
+        <a href="#card-25">to an extremely confined living space.</a>
+        <a href="#card-26">For example, I would have to reduce my possessions to the absolute minimum</a>
+        <a href="#card-27">and sacrifice my privacy.</a>
+        <a href="#card-28">This simpler kind of lifestyle might suit retirees or couples</a>
+        <a href="#card-29">whose children have grown up and moved out — so-called empty-nesters.</a>
+        <a href="#card-30">For me, however, it is not an option,</a>
+        <a href="#card-31">as I am married with two young children,</a>
+        <a href="#card-32">and a family needs more space than a tiny house can provide.</a>
+        <b>[4]</b>
+        <a href="#card-33">Like Jay Shafer's original small home, some tiny houses are built on wheels,</a>
+        <a href="#card-34">which means they can be considered as mobile homes</a>
+        <a href="#card-35">and moved from place to place.</a>
+        <a href="#card-36">However, for people who want to settle in one place in a tiny home,</a>
+        <a href="#card-37">there are various obstacles.</a>
+        <a href="#card-38">A tiny home may cost less to build than a conventional home,</a>
+        <a href="#card-39">but the land on which it stands must also be purchased.</a>
+        <a href="#card-40">And even if people can afford to do this,</a>
+        <a href="#card-41">they may run into difficulties with zoning laws.</a>
+        <a href="#card-42">In many places, tiny houses do not comply with construction regulations</a>
+        <a href="#card-43">that specify the minimum size of a structure.</a>
+        <b>[5]</b>
+        <a href="#card-44">Nevertheless, people are continuing to come up with creative ways</a>
+        <a href="#card-45">to get around such problems.</a>
+        <a href="#card-46">Even though living in a tiny house is not a step I would take right now,</a>
+        <a href="#card-47">I am grateful to the small house movement</a>
+        <a href="#card-48">for making people reconsider what we need</a>
+        <a href="#card-49">to lead a comfortable and fulfilling life.</a>
+    </p>
+</div>
+
+<h2>本文 (Reading Passage)</h2>
+
+<section id="section1">
+    <h3>Section 1</h3>
+    <button class="flip-all-btn" onclick="flipAllInSection(this)">このセクションを全てめくる / 戻す</button>
+    <div class="container">
+        <div id="card-1" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">In 1999, a man in the U.S. state of Wisconsin called Jay Shafer</p></div><div class="card-face card-back"><p class="japanese-text">1999年、アメリカのウィスコンシン州に住むジェイ・シェイファーという名の男性が</p></div></div></div>
+        <div id="card-2" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">built a tiny house on wheels for himself.</p></div><div class="card-face card-back"><p class="japanese-text">自分のために車輪付きの小さな家を建てました。</p></div></div></div>
+        <div id="card-3" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">It had a floor area of just 10 square meters,</p></div><div class="card-face card-back"><p class="japanese-text">床面積はわずか10平方メートルでしたが、</p></div></div></div>
+        <div id="card-4" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">yet he lived in it for five years.</p></div><div class="card-face card-back"><p class="japanese-text">それでも彼はそこに5年間住んでいました。</p></div></div></div>
+        <div id="card-5" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">Later, he produced the first plans for tiny houses on wheels</p></div><div class="card-face card-back"><p class="japanese-text">後に、彼は車輪付きタイニーハウスの最初の設計図を作り、</p></div></div></div>
+        <div id="card-6" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">and went on to found companies that built them,</p></div><div class="card-face card-back"><p class="japanese-text">それらを建てる会社を設立するに至りました、</p></div></div></div>
+        <div id="card-7" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">as well as a society to promote this type of living.</p></div><div class="card-face card-back"><p class="japanese-text">さらにはこの種の暮らしを推進する団体も。</p></div></div></div>
+        <div id="card-8" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">This gave birth to the Small House Movement.</p></div><div class="card-face card-back"><p class="japanese-text">これがスモールハウス・ムーブメントの誕生につながりました。</p></div></div></div>
+        <div id="card-9" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">The timing for such a development was right.</p></div><div class="card-face card-back"><p class="japanese-text">そのような発展のタイミングは適切でした。</p></div></div></div>
+        <div id="card-10" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">As the popularity of the minimalist approach to life shows,</p></div><div class="card-face card-back"><p class="japanese-text">ミニマリスト的な生活様式の人気が示すように、</p></div></div></div>
+        <div id="card-11" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">more and more people are becoming attuned to the idea</p></div><div class="card-face card-back"><p class="japanese-text">ますます多くの人々がその考えに同調するようになっています</p></div></div></div>
+        <div id="card-12" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">of living more simply with fewer possessions.</p></div><div class="card-face card-back"><p class="japanese-text">より少ない所有物でよりシンプルに暮らすという。</p></div></div></div>
+        <div id="card-13" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">Living in a small house potentially offers a way</p></div><div class="card-face card-back"><p class="japanese-text">小さな家に住むことは、ある方法を潜在的に提供します</p></div></div></div>
+        <div id="card-14" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">to put the idea of simpler living into practice.</p></div><div class="card-face card-back"><p class="japanese-text">よりシンプルな生活という考えを実践するための。</p></div></div></div>
+    </div>
+</section>
+
+<section id="section2">
+    <h3>Section 2</h3>
+    <button class="flip-all-btn" onclick="flipAllInSection(this)">このセクションを全てめくる / 戻す</button>
+    <div class="container">
+        <div id="card-15" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">For Japanese people, who are accustomed to relatively small living spaces,</p></div><div class="card-face card-back"><p class="japanese-text">比較的小さな居住空間に慣れている日本人にとって、</p></div></div></div>
+        <div id="card-16" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">it might come as a shock to discover that in 2021,</p></div><div class="card-face card-back"><p class="japanese-text">2021年に発見することは衝撃かもしれません、</p></div></div></div>
+        <div id="card-17" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">the size of the average American family home was around 230 square meters.</p></div><div class="card-face card-back"><p class="japanese-text">アメリカの平均的な家族の家の大きさが約230平方メートルだったと。</p></div></div></div>
+        <div id="card-18" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">The small house movement advocated a return</p></div><div class="card-face card-back"><p class="japanese-text">スモールハウス・ムーブメントは回帰を提唱しました</p></div></div></div>
+        <div id="card-19" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">to houses of less than 93 square meters.</p></div><div class="card-face card-back"><p class="japanese-text">93平方メートル未満の家への。</p></div></div></div>
+        <div id="card-20" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">Subsequently, the idea of the tiny house was developed.</p></div><div class="card-face card-back"><p class="japanese-text">その後、タイニーハウスという考えが生まれました。</p></div></div></div>
+        <div id="card-21" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">— one with a floor area of 37 square meters or less —</p></div><div class="card-face card-back"><p class="japanese-text">ー床面積が37平方メートル以下のものですー</p></div></div></div>
+    </div>
+</section>
+
+<section id="section3">
+    <h3>Section 3</h3>
+    <button class="flip-all-btn" onclick="flipAllInSection(this)">このセクションを全てめくる / 戻す</button>
+    <div class="container">
+        <div id="card-22" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">But for me at least, living in a tiny house is not an optimal solution.</p></div><div class="card-face card-back"><p class="japanese-text">しかし、少なくとも私にとっては、小さな家に住むことは最適な解決策ではありません。</p></div></div></div>
+        <div id="card-23" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">In opting to downscale my living accommodations so drastically,</p></div><div class="card-face card-back"><p class="japanese-text">住居をこれほどまでに抜本的に縮小することを選ぶ上で、</p></div></div></div>
+        <div id="card-24" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">the first hurdle I would need to overcome is adapting</p></div><div class="card-face card-back"><p class="japanese-text">私が乗り越える必要がある最初の障害は適応することです</p></div></div></div>
+        <div id="card-25" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">to an extremely confined living space.</p></div><div class="card-face card-back"><p class="japanese-text">極端に限定された居住空間に。</p></div></div></div>
+        <div id="card-26" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">For example, I would have to reduce my possessions to the absolute minimum</p></div><div class="card-face card-back"><p class="japanese-text">例えば、私は持ち物を絶対的な最小限まで減らし、</p></div></div></div>
+        <div id="card-27" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">and sacrifice my privacy.</p></div><div class="card-face card-back"><p class="japanese-text">そしてプライバシーを犠牲にしなければならないでしょう。</p></div></div></div>
+        <div id="card-28" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">This simpler kind of lifestyle might suit retirees or couples</p></div><div class="card-face card-back"><p class="japanese-text">この種のよりシンプルなライフスタイルは、退職者や夫婦には合うかもしれません</p></div></div></div>
+        <div id="card-29" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">whose children have grown up and moved out — so-called empty-nesters.</p></div><div class="card-face card-back"><p class="japanese-text">子供が成長して家を出た、いわゆる「空の巣族」の。</p></div></div></div>
+        <div id="card-30" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">For me, however, it is not an option,</p></div><div class="card-face card-back"><p class="japanese-text">しかし私にとっては、それは選択肢ではありません、</p></div></div></div>
+        <div id="card-31" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">as I am married with two young children,</p></div><div class="card-face card-back"><p class="japanese-text">なぜなら2人の幼い子供を持つ既婚者であり、</p></div></div></div>
+        <div id="card-32" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">and a family needs more space than a tiny house can provide.</p></div><div class="card-face card-back"><p class="japanese-text">そして家族にはタイニーハウスが提供できる以上の空間が必要だからです。</p></div></div></div>
+    </div>
+</section>
+
+<section id="section4">
+    <h3>Section 4</h3>
+    <button class="flip-all-btn" onclick="flipAllInSection(this)">このセクションを全てめくる / 戻す</button>
+    <div class="container">
+        <div id="card-33" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">Like Jay Shafer's original small home, some tiny houses are built on wheels,</p></div><div class="card-face card-back"><p class="japanese-text">ジェイ・シェイファーの最初の小さな家のように、いくつかのタイニーハウスは車輪の上に建てられています、</p></div></div></div>
+        <div id="card-34" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">which means they can be considered as mobile homes</p></div><div class="card-face card-back"><p class="japanese-text">これは、それらが移動式住居と見なされることを意味し、</p></div></div></div>
+        <div id="card-35" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">and moved from place to place.</p></div><div class="card-face card-back"><p class="japanese-text">そして場所から場所へ移動できることを意味します。</p></div></div></div>
+        <div id="card-36" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">However, for people who want to settle in one place in a tiny home,</p></div><div class="card-face card-back"><p class="japanese-text">しかし、タイニーホームで一箇所に定住したい人々にとっては、</p></div></div></div>
+        <div id="card-37" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">there are various obstacles.</p></div><div class="card-face card-back"><p class="japanese-text">様々な障害があります。</p></div></div></div>
+        <div id="card-38" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">A tiny home may cost less to build than a conventional home,</p></div><div class="card-face card-back"><p class="japanese-text">タイニーホームは従来の家よりも建設費用は安いかもしれませんが、</p></div></div></div>
+        <div id="card-39" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">but the land on which it stands must also be purchased.</p></div><div class="card-face card-back"><p class="japanese-text">それが建つ土地も購入しなければなりません。</p></div></div></div>
+        <div id="card-40" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">And even if people can afford to do this,</p></div><div class="card-face card-back"><p class="japanese-text">そして、たとえ人々がそれを買う余裕があったとしても、</p></div></div></div>
+        <div id="card-41" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">they may run into difficulties with zoning laws.</p></div><div class="card-face card-back"><p class="japanese-text">彼らは地域指定法（都市計画法）で困難に直面するかもしれません。</p></div></div></div>
+        <div id="card-42" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">In many places, tiny houses do not comply with construction regulations</p></div><div class="card-face card-back"><p class="japanese-text">多くの場所で、タイニーハウスは建築規制に従っていません</p></div></div></div>
+        <div id="card-43" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">that specify the minimum size of a structure.</p></div><div class="card-face card-back"><p class="japanese-text">建物の最小サイズを定めた。</p></div></div></div>
+    </div>
+</section>
+
+<section id="section5">
+    <h3>Section 5</h3>
+    <button class="flip-all-btn" onclick="flipAllInSection(this)">このセクションを全てめくる / 戻す</button>
+    <div class="container">
+        <div id="card-44" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">Nevertheless, people are continuing to come up with creative ways</p></div><div class="card-face card-back"><p class="japanese-text">それにもかかわらず、人々は創造的な方法を考え出し続けています</p></div></div></div>
+        <div id="card-45" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">to get around such problems.</p></div><div class="card-face card-back"><p class="japanese-text">そのような問題を回避するための。</p></div></div></div>
+        <div id="card-46" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">Even though living in a tiny house is not a step I would take right now,</p></div><div class="card-face card-back"><p class="japanese-text">今すぐタイニーハウスに住むという一歩を踏み出すことはありませんが、</p></div></div></div>
+        <div id="card-47" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">I am grateful to the small house movement</p></div><div class="card-face card-back"><p class="japanese-text">私はスモールハウス・ムーブメントに感謝しています</p></div></div></div>
+        <div id="card-48" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">for making people reconsider what we need</p></div><div class="card-face card-back"><p class="japanese-text">私たちが必要なものを人々に再考させてくれたことに</p></div></div></div>
+        <div id="card-49" class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">to lead a comfortable and fulfilling life.</p></div><div class="card-face card-back"><p class="japanese-text">快適で充実した生活を送るために。</p></div></div></div>
+    </div>
+</section>
+
+<h2 id="vocab-heading">重要単語 📝</h2>
+<div class="container">
+    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">promote</p></div><div class="card-face card-back"><p class="japanese-text">～を促進する、推進する</p></div></div></div>
+    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">minimalist</p></div><div class="card-face card-back"><p class="japanese-text">最小限主義者（の）</p></div></div></div>
+    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">attuned to</p></div><div class="card-face card-back"><p class="japanese-text">～に同調して、～に合わせて</p></div></div></div>
+    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">possession</p></div><div class="card-face card-back"><p class="japanese-text">所有物</p></div></div></div>
+    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">put into practice</p></div><div class="card-face card-back"><p class="japanese-text">～を実行する</p></div></div></div>
+    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">accustomed to</p></div><div class="card-face card-back"><p class="japanese-text">～に慣れている</p></div></div></div>
+    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">come as a shock</p></div><div class="card-face card-back"><p class="japanese-text">衝撃を与える</p></div></div></div>
+    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">advocate</p></div><div class="card-face card-back"><p class="japanese-text">～を主張する、提唱する</p></div></div></div>
+    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">subsequently</p></div><div class="card-face card-back"><p class="japanese-text">その後</p></div></div></div>
+    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">optimal</p></div><div class="card-face card-back"><p class="japanese-text">最適な</p></div></div></div>
+    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">downscale</p></div><div class="card-face card-back"><p class="japanese-text">～を縮小する</p></div></div></div>
+    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">drastically</p></div><div class="card-face card-back"><p class="japanese-text">抜本的に、徹底的に</p></div></div></div>
+    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">confined</p></div><div class="card-face card-back"><p class="japanese-text">限られた、狭い</p></div></div></div>
+    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">sacrifice</p></div><div class="card-face card-back"><p class="japanese-text">～を犠牲にする</p></div></div></div>
+    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">empty-nester</p></div><div class="card-face card-back"><p class="japanese-text">子供が自立して巣立った親</p></div></div></div>
+    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">conventional</p></div><div class="card-face card-back"><p class="japanese-text">従来の</p></div></div></div>
+    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">obstacle</p></div><div class="card-face card-back"><p class="japanese-text">障害（物）</p></div></div></div>
+    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">zoning laws</p></div><div class="card-face card-back"><p class="japanese-text">地域指定法、都市計画法</p></div></div></div>
+    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">comply with</p></div><div class="card-face card-back"><p class="japanese-text">～に従う、～を遵守する</p></div></div></div>
+    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">regulation</p></div><div class="card-face card-back"><p class="japanese-text">規制、規則</p></div></div></div>
+    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">get around</p></div><div class="card-face card-back"><p class="japanese-text">～をうまく回避する</p></div></div></div>
+    <div class="card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p class="english-text">fulfilling</p></div><div class="card-face card-back"><p class="japanese-text">充実した、やりがいのある</p></div></div></div>
+</div>
+
+<h2 id="wrapup-heading">Wrap Up 📋</h2>
+
+<h3>Build Your Vocabulary</h3>
+<div class="question-group">
+    <p class="question-prompt">1. (line 6) to help something to develop</p>
+    <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>答えを見る</p></div><div class="card-face card-back"><p class="correct-answer">Promote</p></div></div></div>
+</div>
+<div class="question-group">
+    <p class="question-prompt">2. (line 11) something that belongs to you</p>
+    <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>答えを見る</p></div><div class="card-face card-back"><p class="correct-answer">Possession</p></div></div></div>
+</div>
+<div class="question-group">
+    <p class="question-prompt">3. (line 13) familiar with something</p>
+    <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>答えを見る</p></div><div class="card-face card-back"><p class="correct-answer">Accustomed</p></div></div></div>
+</div>
+<div class="question-group">
+    <p class="question-prompt">4. (line 17) to publicly support</p>
+    <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>答えを見る</p></div><div class="card-face card-back"><p class="correct-answer">Advocate</p></div></div></div>
+</div>
+<div class="question-group">
+    <p class="question-prompt">5. (line 22) most favorable or desirable</p>
+    <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>答えを見る</p></div><div class="card-face card-back"><p class="correct-answer">Optimal</p></div></div></div>
+</div>
+<div class="question-group">
+    <p class="question-prompt">6. (line 24) small or limited</p>
+    <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>答えを見る</p></div><div class="card-face card-back"><p class="correct-answer">Confined</p></div></div></div>
+</div>
+<div class="question-group">
+    <p class="question-prompt">7. (line 41) to act as requested</p>
+    <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>答えを見る</p></div><div class="card-face card-back"><p class="correct-answer">Comply</p></div></div></div>
+</div>
+<div class="question-group">
+    <p class="question-prompt">8. (line 48) satisfying or rewarding</p>
+    <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>答えを見る</p></div><div class="card-face card-back"><p class="correct-answer">Fulfilling</p></div></div></div>
+</div>
+
+<h3>Summary & Dictation</h3>
+<div class="question-group">
+    <p class="question-prompt">As the popularity of the [1] ______ approach to life shows, more people are thinking about living with fewer [2] ______. Living in a small house allows people to put the [3] ______ of simpler living into practice. But living in a tiny house means [4] ______ to a confined living space. Furniture must be multi-functional, possessions must be reduced to the [5] ______, and privacy must be [6] ______. Many retirees have [7] ______ this style of living, but younger couples may find limited space is a problem when bringing up children. Some tiny houses are built on wheels, which means they can be moved from place to place. However, for people who want to [8] ______ in one place, there are [9] ______. A tiny home may cost less to build than a conventional home, but the land on which it stands must also be purchased and there can be difficulties with construction [10] ______.</p>
+    
+    <div class="container">
+        <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>1</p></div><div class="card-face card-back"><p class="correct-answer">minimalist</p></div></div></div>
+        <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>2</p></div><div class="card-face card-back"><p class="correct-answer">possessions</p></div></div></div>
+        <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>3</p></div><div class="card-face card-back"><p class="correct-answer">idea</p></div></div></div>
+        <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>4</p></div><div class="card-face card-back"><p class="correct-answer">adapting</p></div></div></div>
+        <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>5</p></div><div class="card-face card-back"><p class="correct-answer">minimum</p></div></div></div>
+        <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>6</p></div><div class="card-face card-back"><p class="correct-answer">sacrificed</p></div></div></div>
+        <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>7</p></div><div class="card-face card-back"><p class="correct-answer">embraced</p></div></div></div>
+        <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>8</p></div><div class="card-face card-back"><p class="correct-answer">settle</p></div></div></div>
+        <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>9</p></div><div class="card-face card-back"><p class="correct-answer">obstacles</p></div></div></div>
+        <div class="card answer-card" onclick="this.classList.toggle('is-flipped')"><div class="card-inner"><div class="card-face card-front"><p>10</p></div><div class="card-face card-back"><p class="correct-answer">regulations</p></div></div></div>
+    </div>
+</div>
+
+
+<script>
+function flipAllInSection(buttonElement) {
+    const section = buttonElement.closest('section');
+    const cards = section.querySelectorAll('.card');
+    cards.forEach(card => {
+        card.classList.toggle('is-flipped');
+    });
+}
+</script>
+
+</body>
+</html>
